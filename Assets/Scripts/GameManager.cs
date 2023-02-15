@@ -11,17 +11,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         //TODO: Questions from server
-        currentIndex.Value = 0;
         Question question = new Question();
-        question.question = "Koliko vidis prstiju?";
-        bool val;
-        for (int i = 0; i < 4; i++)
-        {
-            val = i == 0;
-            question.answers.Add((1300 * (i + 1)).ToString(), val);
-        }
+        question.CreateQuestion();        
         question.ShuffleAnswers();
         ListOfQuestions.questions.Add(question);
+        currentIndex.Value++;
+
     }
 
     public void Play()

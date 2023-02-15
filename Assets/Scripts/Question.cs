@@ -1,19 +1,31 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 [Serializable]
 public class Question
 {
     public string question;
-    public Dictionary<string, bool> answers = new Dictionary<string, bool>(4);
-    
+    public List<Answer> answers = new List<Answer>();
+
     public void ShuffleAnswers()
     {
         System.Random rand = new System.Random();
-        answers = answers.OrderBy(x => rand.Next())
-          .ToDictionary(item => item.Key, item => item.Value);
+        answers = answers.OrderBy(x => Guid.NewGuid()).ToList();
+
+    }
+
+    public void CreateQuestion()
+    {
+        question = "Koliko vidis prstiju?";
+
+        bool val;
+        for (int i = 0; i < 4; i++)
+        {
+            val = i == 0;
+            string answerText = (1300 * (i + 1)).ToString();
+            Answer answer = new Answer(answerText, val);
+            answers.Add(answer);
+        }
     }
 }

@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec4817896288674eb3213123d3b6fae, type: 3}
   m_Name: QuestionList
   m_EditorClassIdentifier: 
-  questions:
-  - question: Koliko vidis prstiju?
+  questions: []

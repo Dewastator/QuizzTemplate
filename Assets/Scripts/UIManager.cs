@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TMP_Text questionText;
 
-    Dictionary<string, bool> answers = new Dictionary<string, bool>();
+    public List<Answer> answers = new List<Answer>();
 
     private void Start()
     {
@@ -29,9 +29,9 @@ public class UIManager : MonoBehaviour
         questionText.text = question.question;
 
         int i = 0;
-        foreach(KeyValuePair<string, bool> answer in answers)
+        foreach(var answer in answers)
         {
-            buttons[i].GetComponentInChildren<TMP_Text>().text = answer.Key;
+            buttons[i].GetComponentInChildren<TMP_Text>().text = answer.answerText;
             i++;
         }
 
@@ -40,8 +40,7 @@ public class UIManager : MonoBehaviour
 
     public void Answer(int index)
     {
-        string answer = buttons[index].GetComponentInChildren<TMP_Text>().text;
-        bool correct = answers[answer];
+        bool correct = answers[index].isCorrect;
         if (correct)
             Debug.Log("CORRECT");
         else
