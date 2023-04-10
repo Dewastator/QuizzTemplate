@@ -15,7 +15,6 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     TMP_Text questionText;
 
-    public List<Answer> answers = new List<Answer>();
 
     private void Start()
     {
@@ -25,13 +24,12 @@ public class UIManager : MonoBehaviour
     private void PopulateQuestion()
     {
         Question question = ListOfQuestions.questions[currentIndex.Value];
-        answers = question.answers;
         questionText.text = question.question;
-
+        question.ShuffleAnswers();
         int i = 0;
-        foreach(var answer in answers)
+        foreach(string answer in question.answers)
         {
-            buttons[i].GetComponentInChildren<TMP_Text>().text = answer.answerText;
+            buttons[i].GetComponentInChildren<TMP_Text>().text = answer;
             i++;
         }
 
@@ -40,10 +38,28 @@ public class UIManager : MonoBehaviour
 
     public void Answer(int index)
     {
-        bool correct = answers[index].isCorrect;
+        int answerIndex = ListOfQuestions.questions[currentIndex.Value].answerIndex;
+        string answerText = ListOfQuestions.questions[currentIndex.Value].answers[answerIndex];
+
+        string buttonText = buttons[index].GetComponentInChildren<TMP_Text>().text;
+        bool correct = answerText == buttonText;
+
+        ResetQuestion();
         if (correct)
+        {
             Debug.Log("CORRECT");
+        }
         else
-            Debug.Log("FAIL");
+        {
+            Debug.Log("FALSE");
+        }
+    }
+
+    private void ResetQuestion()
+    {
+
+        currentIndex.Value = UnityEngine.Random.Range(0, ListOfQuestions.questions.Count);
+        PopulateQuestion();
+
     }
 }

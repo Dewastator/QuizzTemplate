@@ -6,26 +6,22 @@ using System.Linq;
 public class Question
 {
     public string question;
-    public List<Answer> answers = new List<Answer>();
+    public List<String> answers;
+    public int answerIndex;
 
     public void ShuffleAnswers()
     {
-        System.Random rand = new System.Random();
+        string correctAnswer = answers[answerIndex];
+
+        Random rand = new Random();
         answers = answers.OrderBy(x => Guid.NewGuid()).ToList();
 
-    }
-
-    public void CreateQuestion()
-    {
-        question = "Koliko vidis prstiju?";
-
-        bool val;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < answers.Count; i++)
         {
-            val = i == 0;
-            string answerText = (1300 * (i + 1)).ToString();
-            Answer answer = new Answer(answerText, val);
-            answers.Add(answer);
+            if (answers[i].Equals(correctAnswer))
+            {
+                answerIndex = i;
+            }
         }
     }
 }

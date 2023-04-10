@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,13 +12,21 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        //TODO: Questions from server
-        Question question = new Question();
-        question.CreateQuestion();        
-        question.ShuffleAnswers();
-        ListOfQuestions.questions.Add(question);
-        currentIndex.Value++;
+        GetQuestionsFromJSON();
 
+        //TODO: Questions from server
+        currentIndex.Value = UnityEngine.Random.Range(0, ListOfQuestions.questions.Count);
+
+    }
+
+    private void GetQuestionsFromJSON()
+    {
+        string path = Application.dataPath + "/questions.json";
+        string json = File.ReadAllText(path);
+
+        QuestionList questionList = JsonUtility.FromJson<QuestionList>(json);
+        ListOfQuestions.questions = questionList.questions;
+        
     }
 
     public void Play()
@@ -26,4 +36,11 @@ public class GameManager : MonoBehaviour
         //TODO: Answers Shuffle
 
     }
+
+}
+
+[Serializable]
+public class QuestionList
+{
+    public List<Question> questions;
 }
